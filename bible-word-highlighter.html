@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bible Word Highlighter</title>
+    <style>
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bible Word Highlighter</h1>
+    <p>Enter text:</p>
+    <input type="text" id="inputText" oninput="highlightWords()" />
+
+    <p>Highlighted text:</p>
+    <div id="highlightedOutput"></div>
+
+    <script>
+        let bibleWords = [];
+
+        fetch('https://raw.githubusercontent.com/mxw/grmr/master/src/finaltests/bible.txt')
+            .then(response => response.text())
+            .then(text => {
+                bibleWords = text.toLowerCase().match(/\b\w+\b/g);
+            })
+            .catch(error => {
+                document.getElementById("highlightedOutput").innerText = `Error: Failed to fetch the Bible text.`;
+            });
+
+        function highlightWords() {
+            const input = document.getElementById("inputText").value;
+            const words = input.match(/\
