@@ -48,6 +48,8 @@
 
     <div id="wordCount"></div>
 
+    <button onclick="copyResults()">Copy Results</button>
+
     <script>
         let bibleWords = [];
 
@@ -85,11 +87,23 @@
             const wordCountText = `Words in the Bible: ${countBibleWords}, Words not in the Bible: ${countNonBibleWords}`;
             document.getElementById("wordCount").innerText = wordCountText;
 
-            if (countBibleWords === 0 && countNonBibleWords > 0) {
-                if (countNonBibleWords >= 1) {
-                    document.getElementById("wordCount").innerHTML += `<div class="wordart">Congratulations!<br>None of these words are in the Bible.</div>`;
-                } 
+            if (countBibleWords === 0 && countNonBibleWords > 0 && words.length > 1) {
+                document.getElementById("wordCount").innerHTML += `<div class="wordart">Congratulations!<br>None of these words are in the Bible.</div>`;
             }
+        }
+
+        function copyResults() {
+            const results = document.getElementById("wordCount").innerText;
+            const inputText = document.getElementById("inputText").value;
+            const textToCopy = results + "\n\n" + inputText;
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    alert("Results copied to clipboard. You can now share it with others.");
+                })
+                .catch(error => {
+                    console.error("Failed to copy results to clipboard:", error);
+                    alert("Failed to copy results to clipboard. Please try again.");
+                });
         }
     </script>
 </body>
